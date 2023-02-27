@@ -8,7 +8,7 @@ from passlib.context import CryptContext
 from pydantic import BaseModel
 
 from fastapi.staticfiles import StaticFiles
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
 # to get a string like this run:
 # openssl rand -hex 32
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
@@ -18,13 +18,13 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 fake_users_db = {
     "yamada": {
-        "username": "123",
+        "username": "yamada",
         "full_name": "Yamada Taro",
         "age": 33,
         "height": 172,
         "weight": 65,
         "email": "yamada@example.com",
-        "hashed_password": pwd_context.hash("123"),
+        "hashed_password": "$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
         "disabled": False,
     },
     "tanaka": {
@@ -151,4 +151,4 @@ async def read_users_me(current_user: User = Depends(get_current_active_user)):
     return current_user
 
 # must mount on root(/) after all path operations, otherwise they will be overrided !
-# app.mount("/", StaticFiles(directory="static/dist", html=True), name="html")
+app.mount("/", StaticFiles(directory="static/dist", html=True), name="html")

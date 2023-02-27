@@ -1,19 +1,24 @@
-from typing import Optional
-from typing import Union
+from typing import Union,List
 from pydantic import BaseModel, Field
 
 
 class UserSchema(BaseModel):
     username: str = Field(...)
     password: str = Field(...)
-    
+    email: Union[str, None] = None
+    full_name: Union[str, None] = None
+    disabled: Union[bool, None] = None    
     class Config:
         schema_extra = {
             "example": {
-                "username": "John Doe",
+                "username": "JohnDoe",
                 "password": "XXXXXX",
+                "email": "John@gmail.com",
+                "full_name": "your fullname",
+                "disabled": "true or false",
             }
         }
+        
 
 class Token(BaseModel):
     access_token: str
@@ -21,6 +26,7 @@ class Token(BaseModel):
     
 class TokenData(BaseModel):
     username: Union[str, None] = None
+    scopes: List[str] = []
 
 def ResponseModel(data, message):
     return {
